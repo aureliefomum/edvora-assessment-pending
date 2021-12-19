@@ -1,13 +1,14 @@
-import styles from '../../styles/Home.module.css'
+import styles from '../../styles/Home.module.css';
+import ProductCard from '../components/ProductCard';
 
 
-function Carousel(){
+function Carousel(data){
 
    return (
     <div>
        <h4 className={styles.h4}>Product Name</h4>
        <div className={styles.carouselDiv}>
-        Carousel
+        <ProductCard data={data}/>
        </div>
 
          </div>

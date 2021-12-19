@@ -1,22 +1,29 @@
 import styles from '../../styles/Home.module.css'
 
 
-function ProductCard(){
-
+function ProductCard({data}){
+console.log(data.data[1].address.state)
    return (
-<div class="item">
-        <img />
-        <div class="flex-container">
-           <h1 class="title">${result.recipe.label}</h1>
-            {/* add a button  */}
-           <a class="view-button" href="${result.recipe.url}" target="_blank">View Recipe</a>
-        </div>
-        <p class="item-data ingredients">Ingredients: ${(result.recipe.ingredients).map(el=>el.text)}</p>
-        <h4 class="small-item-data">Diet Label: ${result.recipe.dietLabels.length > 0 ? result.recipe.dietLabels: 'No Data Found'}</h4>
-        <h4 class="small-item-data">Health Label: ${result.recipe.healthLabels}
-        </h4>
-        <h6 class="small-item-data">Calories: ${result.recipe.calories.toFixed(2)}Kcal</h6>          
-             
+<div className={styles.cardContainer}>
+       <div  className={styles.topDiv}>
+
+          <img className = {styles.img} src = {data.data[1].image}/>
+          <div className={styles.topInfo}>
+             <div className={styles.productName}>{data.data[1].product_name}</div>
+             <div className={styles.brandName}>{data.data[1].brand_name}</div>
+             <div className={styles.productPrice}>{data.data[1].price}</div>
+          </div>
+
+         </div> 
+         <div className ={styles.bottomDiv}>
+            <div className={styles.bottomInfo}>
+            <span className = {styles.location}>{data.data[1].address.state}</span>
+            <span className = {styles.date}>{data.data[1].date}</span>
+            </div>
+            
+            <span className = {styles.description}>{data.data[1].discription}</span>
+         </div>
+        
         
         
     </div>
