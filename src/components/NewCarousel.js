@@ -23,7 +23,17 @@ export default function NewCarousel({ filteredProducts, filteredBy }) {
 	};
 	return (
 		<div>
-			<h4 className={styles.h4}>{filteredBy}</h4>
+			{filteredBy === "product_name" && filteredProducts.length && (
+				<h4
+					className={styles.h4}
+				>{`Products by: ${filteredProducts[0].product_name}`}</h4>
+			)}
+			{filteredBy === "state" && filteredProducts.length && (
+				<h4 className={styles.h4}>{filteredProducts[0].address.state}</h4>
+			)}
+			{filteredBy === "city" && filteredProducts.length && (
+				<h4 className={styles.h4}>{filteredProducts[0].address.city}</h4>
+			)}
 			<div className={styles.carouselDiv}>
 				<Carousel
 					swipeable={false}
