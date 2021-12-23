@@ -23,12 +23,12 @@ export default function NewCarousel({ filteredProducts, filteredBy }) {
 	};
 	return (
 		<div>
-			{filteredBy === "product_name" && filteredProducts.length && (
+			{filteredProducts.length > 0 && (
 				<h4
 					className={styles.h4}
 				>{`Products by: ${filteredProducts[0].product_name}`}</h4>
 			)}
-			{filteredBy === "state" && filteredProducts.length && (
+			{filteredProducts.length && (
 				<h4 className={styles.h4}>{filteredProducts[0].address.state}</h4>
 			)}
 			{filteredBy === "city" && filteredProducts.length && (
@@ -52,8 +52,8 @@ export default function NewCarousel({ filteredProducts, filteredBy }) {
 					dotListClass="custom-dot-list-style"
 					itemClass="carousel-item-padding-40-px"
 				>
-					{filteredProducts.map((product, prodIdx) => (
-						<ProductCard product={product} key={prodIdx} />
+					{filteredProducts.map((product, productIdx) => (
+						<ProductCard product={product} key={productIdx} />
 					))}
 				</Carousel>
 			</div>
