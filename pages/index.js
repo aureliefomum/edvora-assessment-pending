@@ -5,55 +5,77 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import Sidebar from "../src/components/Sidebar";
-import ProductCard from "../src/components/ProductCard";
-import Carousel from "../src/components/Carousel";
+import NewCarousel from "../src/components/NewCarousel";
 
-// function itemsFilter(filterVal){
-//   if (filterVal ===  )
-//   allProducts.filter((item) => item.product_name === selectedName)
-// }
-
-export default function Home({ data }) {
-	console.log(data);
-
+export default function Home({ results }) {
 	const [allProducts, setAllProducts] = useState([]);
-	const [selectedName, setSelectedName] = useState([]);
-	const [selectedCity, setSelectedCity] = useState([]);
-	const [selectedState, setSelectedState] = useState([]);
+	const [filteredByNameProducts, setFilteredByNameProducts] = useState([]);
+	const [filteredByStateProducts, setFilteredByStateProducts] = useState([]);
+	const [filteredByCityProducts, setFilteredByCityProducts] = useState([]);
+	const [selectedName, setSelectedName] = useState("");
+	const [selectedCity, setSelectedCity] = useState("");
+	const [selectedState, setSelectedState] = useState("");
+
+	async function getStaticProps() {
+		const res = await axios.get(`https://assessment-edvora.herokuapp.com/`);
+		setAllProducts(res.data);
+		console.log(res.data);
+
+		if (!results) {
+			return {
+				notFound: true,
+			};
+		}
+
+		return {
+			props: { results }, // will be passed to the page component as props
+		};
+	}
+	const createFilteredByNameProductsArray = (name) => {
+		const filtered = allProducts.filter(
+			(product) => product.product_name == name
+		);
+		setFilteredByNameProducts(filtered);
+	};
+
+	const createFilteredByStateProductsArray = (state) => {
+		const filtered = allProducts.filter(
+			(product) => product.address.state == state
+		);
+		setFilteredByStateProducts(filtered);
+	};
+
+	const createFilteredByCityProductsArray = (city) => {
+		const filtered = allProducts.filter(
+			(product) => product.address.city == city
+		);
+		setFilteredByCityProducts(filtered);
+	};
 
 	useEffect(() => {
-		setAllProducts(data);
-	}, [data]);
+		getStaticProps();
+	}, []);
 
 	useEffect(() => {
-		console.log("selected", selectedName);
+		createFilteredByNameProductsArray(selectedName);
 	}, [selectedName]);
 
-	const productNames = data.map((item) => item.product_name);
-	const productsArr = [];
-	productNames.forEach((item) => {
-		if (productsArr.filter((productEl) => productEl === item).length === 0) {
-			productsArr.push(item);
-		}
-	});
-	console.log(productNames, productsArr);
+	useEffect(() => {
+		createFilteredByStateProductsArray(selectedState);
+	}, [selectedState]);
 
-	const stateNames = data.map((item) => item.address.state);
-	const statesArr = [];
-	stateNames.forEach((item) => {
-		if (statesArr.filter((stateEl) => stateEl === item).length === 0) {
-			statesArr.push(item);
-		}
-	});
+	useEffect(() => {
+		createFilteredByCityProductsArray(selectedCity);
+	}, [selectedCity]);
 
-	const cityNames = data.map((item) => item.address.city);
-	const citiesArr = [];
-	cityNames.forEach((item) => {
-		if (citiesArr.filter((cityEl) => cityEl === item).length === 0) {
-			citiesArr.push(item);
-		}
-	});
+	const productNames = allProducts.map((item) => item.product_name);
+	const productsArr = Array.from(new Set(productNames));
 
+	const stateNames = allProducts.map((item) => item.address.state);
+	const statesArr = Array.from(new Set(stateNames));
+
+	const cityNames = allProducts.map((item) => item.address.city);
+	const citiesArr = Array.from(new Set(cityNames));
 	return (
 		<div className={styles.container}>
 			<Sidebar
@@ -73,36 +95,19 @@ export default function Home({ data }) {
 					<h2 className={styles.h2}>Edvora</h2>
 					<h3 className={styles.h3}>Products</h3>
 				</div>
-
-				{/* <div>
-					{allProducts
-						// .filter((item) => item.product_name === selectedName)
-						// .filter((item) => item.address.city === selectedCity)
-						// .filter((item) => item.address.state === selectedState)
-						.map((item) => (
-							<div>
-								<p>{item.product_name}</p>
-							</div>
-						))}
-				</div> */}
-				<Carousel data={data} />
-				<Carousel data={data} />
+				<NewCarousel
+					filteredProducts={filteredByNameProducts}
+					filteredBy="Products by:"
+				/>
+				<NewCarousel
+					filteredProducts={filteredByStateProducts}
+					filteredBy="State"
+				/>
+				<NewCarousel
+					filteredProducts={filteredByCityProducts}
+					filteredBy="City"
+				/>
 			</main>
 		</div>
 	);
-}
-
-export async function getStaticProps() {
-	const res = await axios.get(`https://assessment-edvora.herokuapp.com/`);
-	const data = await res.data;
-
-	if (!data) {
-		return {
-			notFound: true,
-		};
-	}
-
-	return {
-		props: { data }, // will be passed to the page component as props
-	};
 }
