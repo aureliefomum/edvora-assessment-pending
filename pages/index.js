@@ -28,7 +28,7 @@ export default function Home({ results }) {
 		}
 
 		return {
-			props: { results }, // will be passed to the page component as props
+			props: { results },
 		};
 	}
 	const createFilteredByNameProductsArray = (name) => {
