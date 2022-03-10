@@ -21,24 +21,25 @@ function Sidebar({
 	return (
 		<aside className={styles.aside}>
 			<div className={styles.asideDiv}>
-				<div className={styles.filters}>Filters</div>
-
-				<div className={styles.dropdowns}>
-					<ProductDropDown
-						productsArr={productsArr}
-						setSelectedName={setSelectedName}
-						selectedName={selectedName}
-					/>
-					<StateDropDown
-						statesArr={statesArr}
-						setSelectedState={setSelectedState}
-						selectedState={selectedState}
-					/>
-					<CitiesDropDown
-						citiesArr={citiesArr}
-						setSelectedCity={setSelectedCity}
-						selectedCity={selectedCity}
-					/>
+				<div className={styles.filters}>
+					Filters
+					<div className={styles.dropdowns}>
+						<ProductDropDown
+							productsArr={productsArr}
+							setSelectedName={setSelectedName}
+							selectedName={selectedName}
+						/>
+						<StateDropDown
+							statesArr={statesArr}
+							setSelectedState={setSelectedState}
+							selectedState={selectedState}
+						/>
+						<CitiesDropDown
+							citiesArr={citiesArr}
+							setSelectedCity={setSelectedCity}
+							selectedCity={selectedCity}
+						/>
+					</div>
 				</div>
 			</div>
 		</aside>
