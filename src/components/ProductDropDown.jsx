@@ -1,5 +1,5 @@
 import React from "react";
-import "./ProductDropDown.module.css";
+import styles from "./ProductDropDown.module.css";
 export default function ProductDropDown({
 	productsArr,
 	setSelectedName,
@@ -9,6 +9,7 @@ export default function ProductDropDown({
 		<div className="product-dropdown-container">
 			<label htmlFor="products"></label>
 			<select
+				style= {styles.productDropDown}
 				defaultValue="Products"
 				name="products"
 				onChange={(e) => setSelectedName(e.target.value)}
